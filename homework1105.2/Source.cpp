@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath> // for pow function
+#include <chrono> // for performance measurement
 using namespace std;
+using namespace std::chrono;
 
 class Polynomial; // forward declaration
 
@@ -162,8 +164,17 @@ int main() {
     cout << "Input second polynomial:" << endl;
     poly2.Input();
 
+    auto start = high_resolution_clock::now();
     Polynomial sum = poly1.Add(poly2);
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - start);
+    cout << "Time taken for addition: " << duration.count() << " microseconds" << endl;
+
+    start = high_resolution_clock::now();
     Polynomial product = poly1.Mult(poly2);
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - start);
+    cout << "Time taken for multiplication: " << duration.count() << " microseconds" << endl;
 
     cout << "First polynomial: ";
     poly1.Print();
