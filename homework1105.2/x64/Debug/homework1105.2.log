@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\iamgo\OneDrive\桌面\資料結構\homework\homework1105.2\homework1105.2\Source.cpp(1,1): warning C4819: 檔案含有無法在目前字碼頁 (950) 中表示的字元。請以 Unicode 格式儲存檔案以防止資料遺失
+C:\Users\iamgo\OneDrive\桌面\資料結構\homework\homework1105.2\homework1105.2\Source.cpp(153,37): warning C4244: '+=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+  homework1105.2.vcxproj -> C:\Users\iamgo\OneDrive\桌面\資料結構\homework\homework1105.2\x64\Debug\homework1105.2.exe
