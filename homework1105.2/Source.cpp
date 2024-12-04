@@ -7,9 +7,7 @@ using namespace std::chrono;
 class Polynomial; // forward declaration
 
 class Term {
-    friend Polynomial;
-
-private:
+public:
     float coef; // coefficient
     int exp;    // exponent
 };
@@ -31,8 +29,8 @@ public:
     float Eval(float f);
     // Evaluate the polynomial *this at f and return the result.
 
-    void Input();
-    void Print() const;
+    friend ostream& operator<<(ostream& os, const Polynomial& p);
+    friend istream& operator>>(istream& is, Polynomial& p);
 
 private:
     Term* termArray; // array of nonzero terms
@@ -51,23 +49,24 @@ Polynomial::Polynomial(const Term* terms, int termCount) {
     }
 }
 
-void Polynomial::Input() {
+istream& operator>>(istream& is, Polynomial& p) {
     cout << "Enter number of terms: ";
-    cin >> terms;
-    capacity = terms;
-    termArray = new Term[capacity];
-    for (int i = 0; i < terms; ++i) {
+    is >> p.terms;
+    p.capacity = p.terms;
+    p.termArray = new Term[p.capacity];
+    for (int i = 0; i < p.terms; ++i) {
         cout << "Enter coefficient and exponent for term " << i + 1 << ": ";
-        cin >> termArray[i].coef >> termArray[i].exp;
+        is >> p.termArray[i].coef >> p.termArray[i].exp;
     }
+    return is;
 }
 
-void Polynomial::Print() const {
-    for (int i = 0; i < terms; ++i) {
-        cout << termArray[i].coef << "x^" << termArray[i].exp;
-        if (i < terms - 1) cout << " + ";
+ostream& operator<<(ostream& os, const Polynomial& p) {
+    for (int i = 0; i < p.terms; ++i) {
+        os << p.termArray[i].coef << "x^" << p.termArray[i].exp;
+        if (i < p.terms - 1) os << " + ";
     }
-    cout << endl;
+    return os;
 }
 
 Polynomial Polynomial::Add(Polynomial poly) {
@@ -159,10 +158,10 @@ float Polynomial::Eval(float f) {
 
 int main() {
     Polynomial poly1, poly2;
-    cout << "Input first polynomial:" << endl;
-    poly1.Input();
-    cout << "Input second polynomial:" << endl;
-    poly2.Input();
+    cout << "Enter number of terms and then coefficient and exponent for each term for the first polynomial:" << endl;
+    cin >> poly1;
+    cout << "Enter number of terms and then coefficient and exponent for each term for the second polynomial:" << endl;
+    cin >> poly2;
 
     auto start = high_resolution_clock::now();
     Polynomial sum = poly1.Add(poly2);
@@ -177,13 +176,13 @@ int main() {
     cout << "Time taken for multiplication: " << duration.count() << " microseconds" << endl;
 
     cout << "First polynomial: ";
-    poly1.Print();
+    cout << poly1 << endl;
     cout << "Second polynomial: ";
-    poly2.Print();
+    cout << poly2 << endl;
     cout << "Sum: ";
-    sum.Print();
+    cout << sum << endl;
     cout << "Product: ";
-    product.Print();
+    cout << product << endl;
 
     float evalPoint;
     cout << "Enter a value to evaluate the polynomials: ";
